@@ -30,6 +30,18 @@ The ```glutSolidTorus``` function renders a solid torus (doughnut) centered at t
 There are also the ```glutSolidTetrahedron```, ```glutSolidOctahedron```, ```glutSolidDodecahedron``` and ```glutSolidIcosahedron``` functions which render their respective solid polygon meshes.
 
 The ```glutWire..``` functions render all the shapes above as a wire frame rather than a solid object.
+
+A **parametric curve** is a 2D curve defined by a set of points \(p(t)=(x(t),y(t))^t\) where \(x(t)\) and \(y(t)\) are functions of the parameter \(t\) over an interval \([t_{min},t_{max}]\).
+
+**Drawing a parametric curve** involves drawing a discrete number of vertices using the parametric curve function and connecting them with line strips.
+
+A **parametric surface** is defined as the set of points \(p(s,t)=\begin{cases}x(s,t)\\y(s,t)\\z(s,t)\end{cases}\).
+
+**Drawing a parametric surface** involves drawing a discrete number of vertices using the parametric curve function and connecting them with quad strips.
+
+A **surface of revolution** is a surface defined by a parametric curve rotating around an axis.
+
+
 ### Transformations in OpenGL
 OpenGl has two \(4\times 4\) transformation matrices:
 * The **Projection matrix**, defined \(P\), which handles perspective projections and scaling from world co-ordinates to screen co-ordinates.
@@ -52,14 +64,4 @@ All transformations are multiplied on the right of the current loaded matrix.
 The ```glPushMatrix``` makes a copy of the current top transformation matrix and places the copy on top of the stack.  
 The ```glPopMatrix``` removes the top transformation matrix.
 
-Any vertices being drawned will only use the top transformation matrix.
-
-A **parametric curve** is a 2D curve defined by a set of points \(p(t)=(x(t),y(t))^t\) where \(x(t)\) and \(y(t)\) are functions of the parameter \(t\) over an interval \([t_{min},t_{max}]\).
-
-**Drawing a parametric curve** involves drawing a discrete number of vertices using the parametric curve function and connecting them with line strips.
-
-A **parametric surface** is defined as the set of points \(p(s,t)=\begin{cases}x(s,t)\\y(s,t)\\z(s,t)\end{cases}\).
-
-**Drawing a parametric surface** involves drawing a discrete number of vertices using the parametric curve function and connecting them with quad strips.
-
-A **surface of revolution** is a surface defined by a parametric curve rotating around an axis.
+Any vertices being drawn will only use the top transformation matrix.
