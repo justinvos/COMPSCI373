@@ -12,7 +12,7 @@ Vectors \(u\) and \(v\) are **orthogonal** \((90^\circ)\) iff \(u\cdot v=0\).
 Vectors \(u\) and \(v\) are less than \(90^\circ\) apart iff \(u\cdot v>0\).  
 Vectors \(u\) and \(v\) are more than \(90^\circ\) apart iff \(u\cdot v<0\).
 
-**Projecting** the vector \(b\) onto \(a\) is defined as \(proj_a(b)=b_a=\frac{b\cdot a}{a\cdot a}\cdot a\).
+**Projecting** the vector \(b\) onto / along \(a\) is defined as \(proj_a(b)=b_a=\frac{b\cdot a}{a\cdot a}\cdot a\).
 
 The **minimum distance from a line** \(L\) to a point \(B\) can be found from \(|c|=|b-b_a|\), where \(b\) is the position vector of B and \(a\) is the direction vector along the line \(L\).
 
@@ -30,7 +30,7 @@ The **inverse** of a \(2\times 2\) matrix \(M\) is \(M^{-1}=\begin{bmatrix}a & b
 
 ## Planes
 
-A **plane** can be represented in the equation form: \(ax+by+cz+d=0\) or in the vector normal form: \(\begin{pmatrix}a \\ b \\ c \end{pmatrix}\).
+A **plane** can be represented in the equation form: \(ax+by+cz+d=0\) or in the vector form: \(\begin{pmatrix}a & b & c \end{pmatrix}\cdot \begin{pmatrix}x \\ y \\ z \end{pmatrix}+d=0\). The vector \(\begin{pmatrix}a & b & c\end{pmatrix}\) is also the vector of the normal of the plane.
 
 The **normal of a plane** is the normalised sum of all the cross products of the adjacent edge vectors in an anti-clockwise direction.
 
@@ -72,9 +72,9 @@ A **spectral response function** (SRF) is a function of the energy returned from
 **Additive colour spaces** are used for materials that produce light. They start at black and adding all of the primary colours results in white e.g. RGB.  
 **Subtractive colour spaces** are used for materials that reflect light. They start at white and adding all of the primary colours results in black e.g CMYK.
 
-HSL (Hue, Saturation, Lightness) is a colour model representing the RGB colour space as vertical bicone. With the vertical axis representing the lightness, the distance from center as the saturation and the direction from the center as the hue.
+**HSL** (Hue, Saturation, Lightness) is a colour model representing the RGB colour space as vertical bicone. With the vertical axis representing the lightness, the distance from center as the saturation and the direction from the center as the hue.
 
-HSV (Hue, Saturation, Value) is a colour model representing the RGB colour space as a vertical cone pointing downwards. With the vertical axis representing the value, the distance from the center as the saturation and the direction from center as the hue.
+**HSV** (Hue, Saturation, Value) is a colour model representing the RGB colour space as a vertical cone pointing downwards. With the vertical axis representing the value, the distance from the center as the saturation and the direction from center as the hue.
 
 ## OpenGL
 **OpenGL** (Open Graphics Library) is a cross-language, cross-platform application programming interface (API) for rendering.
@@ -136,6 +136,31 @@ Primitive types:
 * ```GL_QUAD_STRIP``` draws a connected group of quadrilaterals with the first quadrilateral using the first four vertices and each subsequent quadrilateral using the last two vertices and two new vertices.
 * ```GL_POLYGON``` draws a single convex polygon.
 
+## Illumination and shading
+The **Phong** illumination model uses ambient, diffuse and specular components to calculate the intensity \(R\) (and colour) of visible light.  
+**Ambient light** has no single point or directional source. \(R_a=I_a ρ_α\)  
+**Diffuse light** is the soft light from one or more point or directional sources. \(R_d=I_d ρ_d(\frac{s⋅m}{|s||m|})\div(k_c+k_l d+k_q d^2)\)  
+**Specular light** is the hard light from one or more point or directional sources. \(R_s=I_s ρ_s (\frac{h⋅m}{|h||m|})^α\div(k_c+k_l d+k_q d^2)\)
+
+As the distance from the light source increases, the intensity of light is divided by \((k_c+k_l d+k_q d^2)\) with some arbitrary coefficients \(k_c\), \(k_l\) and \(k_q\) instead of the real world \(d^2\).
+
+\(R=R_a+R_d+R_s=I_a ρ_α+(I_aρ_d  \frac{s⋅m}{|s||m|}+I_sρ_s(\frac{h⋅m}{|h||m|})^α)\div(k_c+k_l d+k_q d^2)\)
+
+![alt text](Phong_components.png "Phong components")
+
+**Phong shading** at every single pixel is the highest quality shading, but is slow.  
+**Mach bands** are an optical illusion which exaggerates the contrast between edges of slightly differing shades.  
+**Gouraud shading** is a balance of speed and quality, by applying the Phong shading at each true surface normal vertex and linearly interpolate colours along the horizontals.  
+**Flat shading** is the fastest, but lowest quality by Phong shading each face.
+
+
+## Shadows
+The **ground-plane projection** method draws shadows of objects as separate objects onto a plane. This method is fast but has limited possibilities.
+
+A **shadow buffer** is a matrix containing the closest object and its distance for each position from the light source. Pixels not in the shadow buffer are therefore hidden by another object and should be shaded.
+
+**Ray tracing** the path of light rays is a slow but high quality method at shading.
+
 
 ## Modelling and rendering
 A **polygon mesh** is defined by a set of vertices and a set of faces to create the illusion of a solid 3D object.  
@@ -170,7 +195,7 @@ A **parametric curve** is a 2D curve defined by a set of points \(p(t)=(x(t),y(t
 
 **Drawing a parametric curve** involves drawing a discrete number of vertices using the parametric curve function and connecting them with line strips.
 
-A **parametric surface** is defined as the set of points \(p(s,t)=\begin{cases}x(s,t)\\y(s,t)\\z(s,t)\end{cases}\).
+A **parametric surface** is defined as the set of points \(p(s,t)=\left\{\begin{matrix}x(s,t)\\y(s,t)\\z(s,t)\end{matrix}\right\}\).
 
 **Drawing a parametric surface** involves drawing a discrete number of vertices using the parametric curve function and connecting them with quad strips.
 
