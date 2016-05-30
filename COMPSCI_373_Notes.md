@@ -26,7 +26,9 @@ In **matrix multiplication**, each term of the resulting matrix is the dot produ
 
 The **determinant** of a \(2\times 2\) matrix \(M\) is defined as \(det(M)=det\left( \begin{bmatrix}a & b \\ c & d\end{bmatrix}\right)=ad-bc\).
 
-The **inverse** of a \(2\times 2\) matrix \(M\) is \(M^{-1}=\begin{bmatrix}a & b \\ c & d\end{bmatrix}^{-1}=\frac{1}{det(M)}\begin{bmatrix}d & -b \\ -c & a \end{bmatrix}\)
+A matrix \(M\) is **non-singular** and has an inverse iff \(det(M)\neq0\).
+
+The **inverse** of a \(2\times 2\) matrix \(M\) is \(M^{-1}=\begin{bmatrix}a & b \\ c & d\end{bmatrix}^{-1}=\frac{1}{det(M)}\begin{bmatrix}d & -b \\ -c & a \end{bmatrix}\).
 
 ## Planes
 
@@ -34,7 +36,7 @@ A **plane** can be represented in the equation form: \(ax+by+cz+d=0\) or in the 
 
 The **normal of a plane** is the normalised sum of all the cross products of the adjacent edge vectors in an anti-clockwise direction.
 
-The **distance between a plane** \(P\) and a point \(Q\) can be found using \(\frac{Q\cdot P+d}{|P|}\).
+The **distance between a plane normal** \(n\) and a point \(q\) can be found using \(\frac{|q\cdot n-d|}{|n|}\).
 
 ## Matrix Transformations
 
@@ -139,12 +141,14 @@ Primitive types:
 ## Illumination and shading
 The **Phong** illumination model uses ambient, diffuse and specular components to calculate the intensity \(R\) (and colour) of visible light.  
 **Ambient light** has no single point or directional source. \(R_a=I_a ρ_α\)  
-**Diffuse light** is the soft light from one or more point or directional sources. \(R_d=I_d ρ_d(\frac{s⋅m}{|s||m|})\div(k_c+k_l d+k_q d^2)\)  
-**Specular light** is the hard light from one or more point or directional sources. \(R_s=I_s ρ_s (\frac{h⋅m}{|h||m|})^α\div(k_c+k_l d+k_q d^2)\)
+**Diffuse light** is the soft light from one or more point or directional sources. It is also independent of the viewing angle. \(R_d=I_d ρ_d(\frac{s⋅m}{|s||m|})\div(k_c+k_l d+k_q d^2)\)  
+**Specular light** is the hard light from one or more point or directional sources. It takes into account the viewing angle. \(R_s=I_s ρ_s (\frac{v⋅r}{|v||r|})^α\div(k_c+k_l d+k_q d^2)\)  
+Where \(m\) is the surface normal vector, \(s\) is the direction of the light source, \(v\) is the viewing direction, \(r\) is the calculated from the surface normal and the light source and \(\alpha\) is the shininess factor.
+
 
 As the distance from the light source increases, the intensity of light is divided by \((k_c+k_l d+k_q d^2)\) with some arbitrary coefficients \(k_c\), \(k_l\) and \(k_q\) instead of the real world \(d^2\).
 
-\(R=R_a+R_d+R_s=I_a ρ_α+(I_aρ_d  \frac{s⋅m}{|s||m|}+I_sρ_s(\frac{h⋅m}{|h||m|})^α)\div(k_c+k_l d+k_q d^2)\)
+\(R=R_a+R_d+R_s=I_a ρ_α+(I_dρ_d  \frac{s⋅m}{|s||m|}+I_sρ_s(\frac{h⋅m}{|h||m|})^α)\div(k_c+k_l d+k_q d^2)\)
 
 ![alt text](Phong_components.png "Phong components")
 
@@ -225,3 +229,11 @@ The ```glPushMatrix``` makes a copy of the current top transformation matrix and
 The ```glPopMatrix``` removes the top transformation matrix.
 
 Any vertices being drawn will only use the top transformation matrix.
+
+
+## Image processing
+A **linear mapping** is a transformation applied to every pixel in the form \(v'(x,y)=a\times v(x,y)+b\) for some constants \(a\) and \(b\).
+
+**Mean filtering** is a transformation applied to every pixel using the equation \(v'(x,y)=\text{mean}(v(x-1,y-1),...,v(x+1,y+1))\) i.e. the mean of all neighbouring pixels.
+
+**Median filtering** is a transformation applied to every pixel using the equation \(v'(x,y)=\text{median}(v(x-1,y-1),...,v(x+1,y+1))\) i.e. the median of all neighbouring pixels.
